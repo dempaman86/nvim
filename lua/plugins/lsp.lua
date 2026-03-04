@@ -14,6 +14,10 @@ return {
     },
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local function setup_and_enable(server, config)
+        vim.lsp.config(server, vim.tbl_deep_extend("force", { capabilities = capabilities }, config or {}))
+        vim.lsp.enable(server)
+      end
 
       require("mason-lspconfig").setup({
         ensure_installed = {
@@ -27,7 +31,6 @@ return {
         },
       })
 
-      -- Default servers
       local servers = {
         "bashls",
         "gopls",
@@ -37,15 +40,10 @@ return {
       }
 
       for _, server in ipairs(servers) do
-        vim.lsp.config(server, {
-          capabilities = capabilities,
-        })
-        vim.lsp.enable(server)
+        setup_and_enable(server)
       end
 
-      -- Lua special config
-      vim.lsp.config("lua_ls", {
-        capabilities = capabilities,
+      setup_and_enable("lua_ls", {
         settings = {
           Lua = {
             diagnostics = {
@@ -57,9 +55,7 @@ return {
           },
         },
       })
-      vim.lsp.enable("lua_ls")
 
-      -- YAML (plain YAML, no Kubernetes schema)
       vim.lsp.config("yamlls", {
         capabilities = capabilities,
         settings = {
@@ -70,14 +66,13 @@ return {
             schemaStore = {
               enable = false,
             },
-            schemas = {}, -- no schemas
+            schemas = {},
             format = {
-              enable = false, -- conform handles formatting
+              enable = false,
             },
           },
         },
       })
-      -- yamlls is opt-in via manual start
     end,
   },
 
