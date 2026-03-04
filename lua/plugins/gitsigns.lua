@@ -4,7 +4,7 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     keys = {
       {
-        "<leader>gbb",
+        "<leader>gbl",
         function()
           require("gitsigns").toggle_current_line_blame()
         end,
@@ -43,7 +43,7 @@ return {
       })
     end,
     opts = function(_, opts)
-      opts.current_line_blame = true
+      opts.current_line_blame = false
       opts.current_line_blame_opts = vim.tbl_deep_extend("force", opts.current_line_blame_opts or {}, {
         virt_text = true,
         virt_text_pos = "right_align",

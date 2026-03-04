@@ -40,7 +40,7 @@ keymap("n", "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", { desc 
 -- 3. Git (Fugitive & Telescope)
 -- =============================================================================
 
-keymap("n", "<leader>gb", function()
+keymap("n", "<leader>gbb", function()
   require("telescope.builtin").git_branches()
 end, { desc = "Git branches" })
 keymap("n", "<leader>gs", "<cmd>vert G<CR>", { desc = "Open Fugitive status" })
