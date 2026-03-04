@@ -25,22 +25,18 @@ return {
         vim.api.nvim_set_hl(0, "GitsignsPreviewBorder", { link = "FloatBorder" })
       end
 
+      local function apply_highlights()
+        set_blame_hl()
+        set_preview_hl()
+      end
+
       local group = vim.api.nvim_create_augroup("user_gitsigns_blame_hl", { clear = true })
       vim.api.nvim_create_autocmd("ColorScheme", {
         group = group,
-        callback = function()
-          set_blame_hl()
-          set_preview_hl()
-        end,
+        callback = apply_highlights,
       })
 
-      vim.api.nvim_create_autocmd("VimEnter", {
-        group = group,
-        callback = function()
-          set_blame_hl()
-          set_preview_hl()
-        end,
-      })
+      apply_highlights()
     end,
     opts = function(_, opts)
       opts.current_line_blame = false
