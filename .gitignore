@@ -1,0 +1,12 @@
+.DS_Store
+.sandbox/
+IMPROVEMENTS.md
+HANDOVER.md
+
+# Neovim/Editor artifacts
+.netrwhist
+*.swp
+*.swo
+*~
+Session.vim
+tags
