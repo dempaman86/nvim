@@ -1,32 +1,31 @@
 # Neovim setup
 
+This repository contains a modular Neovim configuration built on `lazy.nvim`.
+The goal is a stable, practical setup for daily development.
 
-Detta repo innehaller en Neovim-konfiguration byggd med `lazy.nvim` från grunden.
-Målet är en stabil och enkel bas för vardaglig utveckling.
+## Quick start
 
-## Snabbstart
-
-1. Starta Neovim:
+1. Start Neovim:
 
 ```bash
 nvim
 ```
 
-2. Synka plugins första gången i Neovim:
+2. Sync plugins on first launch:
 
 ```vim
 :Lazy sync
 ```
 
-## Struktur
+## Repository structure
 
-- `init.lua` - entrypoint
+- `init.lua` - entry point
 - `lua/config/` - options, keymaps, autocmds, lazy bootstrap
-- `lua/plugins/` - plugin-spec per doman
+- `lua/plugins/` - plugin specs by feature
 
-## Vanlig plugin-bas
+## Core plugins
 
-- UI: Tokyonight, Lualine
+- UI: Catppuccin, Lualine
 - Navigation/Search: Telescope
 - Syntax: Treesitter
 - LSP: Mason, mason-lspconfig, nvim-lspconfig
@@ -35,6 +34,32 @@ nvim
 - Editing: Comment, autopairs, surround, which-key
 - Formatting: Conform (format-on-save)
 
-## Keybinding-notis (cross-platform)
+## Useful keybindings
 
-- I Telescope (t.ex. via `<leader>ff`) öppnar `<C-s>` vald fil i vertical split.
+- `<leader>gbb` - Telescope Git branches
+- `<leader>gbl` - Toggle inline Git blame
+- `<leader>gP` - `Git pull --rebase --autostash`
+- In Telescope, `<C-s>` opens the selected entry in a vertical split.
+
+## Symlink setup
+
+Use this when you want the repo in `~/projects/nvim` but Neovim to read from `~/.config/nvim`:
+
+```bash
+mv ~/.config/nvim ~/projects/nvim
+ln -s ~/projects/nvim ~/.config/nvim
+```
+
+If `~/projects/nvim` already exists and should be replaced:
+
+```bash
+rm -rf ~/projects/nvim
+mv ~/.config/nvim ~/projects/nvim
+ln -s ~/projects/nvim ~/.config/nvim
+```
+
+## Quick troubleshooting
+
+- `:checkhealth` - Run Neovim health checks
+- `:Lazy sync` - Reinstall/update plugins
+- `:Mason` - Manage LSP servers and tools
