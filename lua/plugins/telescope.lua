@@ -15,11 +15,11 @@ return {
         selection_caret = "  ",
         entry_prefix = "  ",
         sorting_strategy = "ascending",
-        layout_strategy = "vertical",
+        layout_strategy = "horizontal",
         layout_config = {
-          vertical = {
+          horizontal = {
             prompt_position = "top",
-            preview_height = 0.70,
+            preview_width = 0.58,
           },
           width = 0.87,
           height = 0.80,

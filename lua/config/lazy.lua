@@ -27,6 +27,9 @@ require("lazy").setup({
   spec = {
     { import = "plugins" },
   },
+  rocks = {
+    enabled = false,
+  },
   defaults = {
     lazy = false,
   },
