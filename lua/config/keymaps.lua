@@ -1,9 +1,5 @@
 local keymap = vim.keymap.set
 
--- =============================================================================
--- 1. General Mappings
--- =============================================================================
-
 keymap("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file" })
 keymap("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit window" })
 keymap("n", "<leader>Q", "<cmd>qa<cr>", { desc = "Quit all" })
@@ -15,10 +11,6 @@ keymap("n", "<Esc>", function()
     vim.cmd("echo")
   end
 end, { desc = "Clear highlight or escape", silent = true })
-
--- =============================================================================
--- 2. Search & Discovery (Telescope)
--- =============================================================================
 
 keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
 keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live grep" })
@@ -35,10 +27,6 @@ keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
 keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help tags" })
 keymap("n", "<leader>ft", "<cmd>Telescope colorscheme enable_preview=true<cr>", { desc = "Find themes" })
 keymap("n", "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", { desc = "Fuzzy find in current buffer" })
-
--- =============================================================================
--- 3. Git (Fugitive & Telescope)
--- =============================================================================
 
 keymap("n", "<leader>gbb", function()
   require("telescope.builtin").git_branches()
@@ -67,7 +55,7 @@ keymap("n", "<leader>gp", function()
 
   vim.cmd("Git push -u " .. remote .. " HEAD")
 end, { desc = "Git push (set upstream if needed)" })
-keymap("n", "<leader>gP", "<cmd>Git pull --rebase<CR>", { desc = "Git pull --rebase" })
+keymap("n", "<leader>gP", "<cmd>Git pull --rebase --autostash<CR>", { desc = "Git pull --rebase --autostash" })
 keymap("n", "<leader>gf", "<cmd>Git fetch --prune<CR>", { desc = "Git fetch --prune" })
 keymap("n", "<leader>gbf", function()
   vim.cmd("G blame --date=short")
@@ -82,10 +70,6 @@ keymap("n", "<leader>gbf", function()
 end, { desc = "Fugitive blame (short date)" })
 keymap("n", "<leader>gd", "<cmd>Gvdiffsplit<CR>", { desc = "Git vertical diff split" })
 keymap("n", "<leader>gl", "<cmd>vert G log<CR>", { desc = "Git log" })
-
--- =============================================================================
--- 4. LSP & Diagnostics
--- =============================================================================
 
 keymap("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
 keymap("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
@@ -146,11 +130,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
--- =============================================================================
--- 5. Tools & Utilities
--- =============================================================================
-
--- File operations
 keymap("n", "<leader>fn", "<cmd>execute 'edit ' . input('New file: ')<cr>", { desc = "New file" })
 keymap("n", "<leader>fd", function()
   local file = vim.fn.expand("%:p")
@@ -165,7 +144,6 @@ keymap("n", "<leader>fd", function()
   end
 end, { desc = "Delete current file" })
 
--- Toggles
 keymap("n", "<C-n>", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle file tree" })
 
 keymap("n", "<leader>tl", function()
