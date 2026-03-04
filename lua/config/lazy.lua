@@ -5,7 +5,7 @@ if not vim.tbl_contains(vim.opt.runtimepath:get(), sitepath) then
   vim.opt.runtimepath:append(sitepath)
 end
 
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -14,6 +14,11 @@ if not vim.loop.fs_stat(lazypath) then
     "--branch=stable",
     lazypath,
   })
+
+  if vim.v.shell_error ~= 0 then
+    vim.notify("Failed to clone lazy.nvim", vim.log.levels.ERROR)
+    return
+  end
 end
 
 vim.opt.rtp:prepend(lazypath)
