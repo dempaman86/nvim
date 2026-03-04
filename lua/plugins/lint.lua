@@ -16,6 +16,16 @@ return {
       local lint = require("lint")
       local lint_timer
 
+      local function clear_lint_timer()
+        if not lint_timer then
+          return
+        end
+
+        lint_timer:stop()
+        lint_timer:close()
+        lint_timer = nil
+      end
+
       if vim.g.lint_enabled == nil then
         vim.g.lint_enabled = true
       end
@@ -30,17 +40,11 @@ return {
           return
         end
 
-        if lint_timer then
-          lint_timer:stop()
-          lint_timer:close()
-          lint_timer = nil
-        end
+        clear_lint_timer()
 
-        lint_timer = vim.loop.new_timer()
+        lint_timer = vim.uv.new_timer()
         lint_timer:start(200, 0, function()
-          lint_timer:stop()
-          lint_timer:close()
-          lint_timer = nil
+          clear_lint_timer()
           vim.schedule(function()
             lint.try_lint()
           end)
@@ -51,6 +55,13 @@ return {
         group = group,
         callback = function()
           schedule_lint()
+        end,
+      })
+
+      vim.api.nvim_create_autocmd({ "BufUnload", "VimLeavePre" }, {
+        group = group,
+        callback = function()
+          clear_lint_timer()
         end,
       })
     end,
