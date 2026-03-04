@@ -1,8 +1,6 @@
-local plugins = {
+return {
   {
     "tpope/vim-fugitive",
     lazy = false,
   },
 }
-
-return plugins
