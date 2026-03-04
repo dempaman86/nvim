@@ -1,4 +1,9 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local sitepath = vim.fn.stdpath("data") .. "/site"
+
+if not vim.tbl_contains(vim.opt.runtimepath:get(), sitepath) then
+  vim.opt.runtimepath:append(sitepath)
+end
 
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({

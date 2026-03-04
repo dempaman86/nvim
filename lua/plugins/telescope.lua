@@ -54,6 +54,18 @@ return {
       },
     },
     config = function(_, opts)
+      local actions = require("telescope.actions")
+
+      opts.defaults = opts.defaults or {}
+      opts.defaults.mappings = vim.tbl_deep_extend("force", opts.defaults.mappings or {}, {
+        i = {
+          ["<C-s>"] = actions.select_vertical,
+        },
+        n = {
+          ["<C-s>"] = actions.select_vertical,
+        },
+      })
+
       require("telescope").setup(opts)
 
       -- Auto-uppdatera highlightsen när färgtemat byts från Telescope
