@@ -6,11 +6,11 @@ return {
       delay = 0,
 
       icons = {
-        mappings = true, -- aktiverar Nerd Font ikoner
+        mappings = true,
       },
 
       spec = {
-        { "<leader>g", group = " Git" }, -- git-ikon från Nerd Font
+        { "<leader>g", group = " Git" },
       },
     },
   },
