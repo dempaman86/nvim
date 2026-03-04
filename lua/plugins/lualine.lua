@@ -62,19 +62,6 @@ return {
 
         lualine_z = {
           {
-            function()
-              local profile = vim.g.nvim_profile or "unknown"
-              return "󰆚 " .. profile:upper()
-            end,
-            color = function()
-              if vim.g.nvim_profile == "work" then
-                return { fg = "#ff9e64", gui = "bold" } -- Orange for work
-              else
-                return { fg = "#7aa2f7", gui = "bold" } -- Blue for private
-              end
-            end,
-          },
-          {
             "location",
             fmt = function(str)
               return str

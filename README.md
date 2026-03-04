@@ -1,8 +1,8 @@
-# Neovim setup (profiles)
+# Neovim setup
 
 
 Detta repo innehaller en Neovim-konfiguration byggd med `lazy.nvim` från grunden.
-Målet är en stabil bas som funkar både privat och på jobb via profiler.
+Målet är en stabil och enkel bas för vardaglig utveckling.
 
 ## Snabbstart
 
@@ -18,24 +18,11 @@ nvim
 :Lazy sync
 ```
 
-## Profilhantering
-
-- `private` laddas som default.
-- Byt profil med env:
-
-```bash
-NVIM_PROFILE=work nvim
-```
-
-- Profilfiler finns i `lua/profiles/`.
-
 ## Struktur
 
 - `init.lua` - entrypoint
 - `lua/config/` - options, keymaps, autocmds, lazy bootstrap
 - `lua/plugins/` - plugin-spec per doman
-- `lua/profiles/` - profil-overlays (work/private)
-- `lua/core/profile.lua` - profil-loader
 
 ## Vanlig plugin-bas
 
