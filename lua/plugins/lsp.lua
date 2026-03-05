@@ -25,6 +25,7 @@ return {
           "gopls",
           "jsonls",
           "lua_ls",
+          "marksman",
           "pyright",
           "ts_ls",
           "yamlls",
@@ -54,6 +55,10 @@ return {
             },
           },
         },
+      })
+
+      setup_and_enable("marksman", {
+        filetypes = { "markdown", "markdown.mdx", "vimwiki" },
       })
 
       vim.lsp.config("yamlls", {
@@ -127,6 +132,7 @@ return {
         typescript = { "prettier" },
         json = { "prettier" },
         markdown = { "prettier" },
+        vimwiki = { "prettier" },
         yaml = { "prettier" },
       },
     },
