@@ -10,7 +10,7 @@ return {
           enabled = true,
         },
         pipe_table = {
-          cell = "overlay",
+          cell = "trimmed",
           min_width = 3,
         },
         quote = {
