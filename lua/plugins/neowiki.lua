@@ -1,7 +1,7 @@
 return {
   {
-    dir = vim.fn.expand("~/projects/neowiki"),
-    name = "neowiki",
+    "dempaman86/neowiki",
+    branch = "main",
     config = function()
       require("neowiki.init").setup({
         workspaces = {
