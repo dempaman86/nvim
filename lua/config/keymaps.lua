@@ -1,8 +1,46 @@
 local keymap = vim.keymap.set
+local wiki_root = vim.fn.expand("~/neowiki")
 
-keymap("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file" })
+keymap("n", "<C-s>", "<cmd>w<cr>", { desc = "Save file" })
+keymap("i", "<C-s>", "<Esc><cmd>w<cr>a", { desc = "Save file" })
+keymap("x", "<C-s>", "<Esc><cmd>w<cr>gv", { desc = "Save file" })
+keymap("s", "<C-s>", "<Esc><cmd>w<cr>", { desc = "Save file" })
+
+keymap("n", "<leader>ww", "<cmd>NeowikiEnterWorkspace<cr>", { desc = "Neowiki palette" })
+keymap("n", "<leader>wd", "<cmd>NeowikiDiaryEnter<cr>", { desc = "Neowiki diary" })
+keymap("n", "<leader>wq", "<cmd>NeowikiLeave<cr>", { desc = "Leave Neowiki" })
+keymap("n", "<leader>wf", function()
+  pcall(function()
+    require("neowiki.init").capture_return_context()
+  end)
+  require("telescope.builtin").find_files({
+    cwd = wiki_root,
+    prompt_title = "Neowiki files",
+  })
+end, { desc = "Find wiki files" })
+keymap("n", "<leader>wg", function()
+  pcall(function()
+    require("neowiki.init").capture_return_context()
+  end)
+  require("telescope.builtin").live_grep({
+    cwd = wiki_root,
+    prompt_title = "Neowiki grep",
+  })
+end, { desc = "Grep wiki" })
+keymap("n", "<leader>ws", function()
+  pcall(function()
+    require("neowiki.init").capture_return_context()
+  end)
+  require("telescope.builtin").grep_string({
+    cwd = wiki_root,
+    search = "",
+    prompt_title = "Find Word (Neowiki)",
+  })
+end, { desc = "Search wiki text" })
+keymap("n", "<leader>fs", "<cmd>w<cr>", { desc = "Save file" })
 keymap("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit window" })
 keymap("n", "<leader>Q", "<cmd>qa<cr>", { desc = "Quit all" })
+keymap("n", "4", "$", { desc = "Start of line" })
 
 keymap("n", "<Esc>", function()
   if vim.v.hlsearch == 1 then
@@ -16,13 +54,10 @@ keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files"
 keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live grep" })
 keymap("n", "<leader>fw", function()
   require("telescope.builtin").grep_string({
-    search = vim.fn.expand("<cword>"),
-    use_regex = false,
-    word_match = "-w",
-    only_sort_text = true,
-    additional_args = { "--fixed-strings" },
+    search = "",
+    prompt_title = "Find Word",
   })
-end, { desc = "Grep whole word under cursor" })
+end, { desc = "Grep with fuzzy filter" })
 keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
 keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help tags" })
 keymap("n", "<leader>ft", "<cmd>Telescope colorscheme enable_preview=true<cr>", { desc = "Find themes" })
@@ -131,6 +166,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 keymap("n", "<leader>fn", "<cmd>execute 'edit ' . input('New file: ')<cr>", { desc = "New file" })
+keymap("n", "<leader>p", '"0p', { desc = "Paste last yank" })
+keymap("x", "<leader>p", '"_d"0P', { desc = "Replace selection with last yank" })
 keymap("n", "<leader>fd", function()
   local file = vim.fn.expand("%:p")
   if file == "" then
@@ -162,3 +199,7 @@ keymap("n", "<leader>tL", function()
     vim.notify("LSP: on")
   end
 end, { desc = "Toggle LSP" })
+
+keymap({ "n", "x" }, "<leader>c", function()
+  require("config.smart_surround").select_or_expand()
+end, { desc = "Select or expand nearest surround" })

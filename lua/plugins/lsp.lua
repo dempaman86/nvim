@@ -58,7 +58,7 @@ return {
       })
 
       setup_and_enable("marksman", {
-        filetypes = { "markdown", "markdown.mdx", "vimwiki" },
+        filetypes = { "markdown", "markdown.mdx", "neowiki" },
       })
 
       vim.lsp.config("yamlls", {
@@ -96,6 +96,49 @@ return {
       local luasnip = require("luasnip")
 
       require("luasnip.loaders.from_vscode").lazy_load()
+      require("snippets.neowiki").setup()
+
+      local function neowiki_table_rank(entry)
+        if entry.source.name ~= "luasnip" then
+          return nil
+        end
+
+        local label = entry.completion_item.label
+        if label == "table" then
+          return { group = 1, size = 1 }
+        end
+        if label == "tabled" then
+          return { group = 2, size = 1 }
+        end
+
+        local size = label:match("^table(%d+)$")
+        if size then
+          return { group = 1, size = tonumber(size) }
+        end
+
+        size = label:match("^table(%d+)d$")
+        if size then
+          return { group = 2, size = tonumber(size) }
+        end
+
+        return nil
+      end
+
+      local function compare_neowiki_tables(entry1, entry2)
+        local rank1 = neowiki_table_rank(entry1)
+        local rank2 = neowiki_table_rank(entry2)
+        if not rank1 or not rank2 then
+          return nil
+        end
+
+        if rank1.group ~= rank2.group then
+          return rank1.group < rank2.group
+        end
+
+        if rank1.size ~= rank2.size then
+          return rank1.size < rank2.size
+        end
+      end
 
       cmp.setup({
         snippet = {
@@ -105,12 +148,28 @@ return {
         },
         mapping = cmp.mapping.preset.insert({
           ["<C-Space>"] = cmp.mapping.complete(),
+          ["<Tab>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+          ["<S-Tab>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
         }),
         sources = {
           { name = "nvim_lsp" },
           { name = "luasnip" },
           { name = "buffer" },
+        },
+        sorting = {
+          comparators = {
+            compare_neowiki_tables,
+            cmp.config.compare.offset,
+            cmp.config.compare.exact,
+            cmp.config.compare.score,
+            cmp.config.compare.recently_used,
+            cmp.config.compare.locality,
+            cmp.config.compare.kind,
+            cmp.config.compare.sort_text,
+            cmp.config.compare.length,
+            cmp.config.compare.order,
+          },
         },
       })
     end,
@@ -132,7 +191,7 @@ return {
         typescript = { "prettier" },
         json = { "prettier" },
         markdown = { "prettier" },
-        vimwiki = { "prettier" },
+        neowiki = { "prettier" },
         yaml = { "prettier" },
       },
     },

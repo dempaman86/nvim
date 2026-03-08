@@ -30,3 +30,6 @@ vim.api.nvim_create_autocmd("CursorHold", {
     vim.diagnostic.open_float(nil, { focusable = false, scope = "line" })
   end,
 })
+
+vim.cmd([[cnoreabbrev <expr> Wq getcmdtype() == ':' && getcmdline() == 'Wq' ? 'wq' : 'Wq']])
+vim.cmd([[cnoreabbrev <expr> WQ getcmdtype() == ':' && getcmdline() == 'WQ' ? 'wq' : 'WQ']])
